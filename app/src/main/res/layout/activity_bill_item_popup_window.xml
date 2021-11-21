@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    tools:context=".BillItemPopupWindow">
+
+    <Button
+        android:id="@+id/bill_item_popup_window_btn_remove_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete"
+        android:textColor="@color/white"
+        android:background="@color/design_default_color_on_secondary"
+        android:textSize="15sp"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        />
+
+</LinearLayout>
