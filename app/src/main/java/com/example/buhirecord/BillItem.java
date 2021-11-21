@@ -5,9 +5,14 @@ import java.util.Date;
 public class BillItem {
     private Date date;
     private String category;
-    private Float amount;
+    private Double amount;
 
-    public BillItem(Date d, String c, Float a) {
+    public BillItem(String c, Double a) {
+        category = c;
+        amount = a;
+    }
+
+    public BillItem(Date d, String c, Double a) {
         date = d;
         category = c;
         amount = a;
@@ -21,7 +26,7 @@ public class BillItem {
         this.category = category;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -33,7 +38,7 @@ public class BillItem {
         return category;
     }
 
-    public Float getAmount() {
+    public Double getAmount() {
         return amount;
     }
 }

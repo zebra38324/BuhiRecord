@@ -1,12 +1,17 @@
 package com.example.buhirecord;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.PopupWindow;
+
+import java.util.Objects;
 
 public class BillItemPopupWindow extends PopupWindow {
     private final Context mContext;
@@ -18,6 +23,7 @@ public class BillItemPopupWindow extends PopupWindow {
         init();
     }
 
+    @SuppressLint("InflateParams")
     private void init() {
         setOutsideTouchable(false);
         setFocusable(true);

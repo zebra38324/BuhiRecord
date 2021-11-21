@@ -10,19 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BuhiRecord">
         <activity
-            android:name=".BillItemPopupWindow"
-            android:exported="false" />
-        <activity
-            android:name=".BillItemViewHolder"
-            android:exported="false" />
-        <activity
-            android:name=".BillItemsAdapter"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".CalendarActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
