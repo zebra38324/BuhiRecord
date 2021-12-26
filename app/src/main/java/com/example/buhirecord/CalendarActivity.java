@@ -16,6 +16,7 @@ import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,7 @@ public class CalendarActivity extends AppCompatActivity
     private BillItemsAdapter mBillItemsAdapter;
     private RecyclerView mBillItemsRecyclerView;
     private BillItemPopupWindow mBillItemPopupWindow;
+    private BuhiRecordDatabaseHelper mBuhiRecordDatabaseHelper;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -43,14 +45,29 @@ public class CalendarActivity extends AppCompatActivity
         mTitleDate.setText(mCalendarView.getCurYear() + "-" + mCalendarView.getCurMonth() + "-" + mCalendarView.getCurDay());
         mEditText = findViewById(R.id.activity_calendar_bottom_edit);
         mBillItemPopupWindow = new BillItemPopupWindow(CalendarActivity.this);
+        mBuhiRecordDatabaseHelper = new BuhiRecordDatabaseHelper(this, null);
         initBillItemsAdapter();
         initEnterButton();
         initExpandButton();
     }
 
+    @Override
+    public void onCalendarOutOfRange(Calendar calendar) {
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onCalendarSelect(Calendar calendar, boolean isClick) {
+        String date = getCalendarDate(calendar);
+        mTitleDate.setText(date);
+        // TODO: 点击不同日期，显示每天的账单
+        updateBillItemsAdapter(date);
+    }
+
     private void initBillItemsAdapter() {
         List<BillItem> billItemList = new ArrayList<>();
-        billItemList.add(new BillItem("总计", 0.0));
+        billItemList.add(new BillItem(getCalendarViewDate(), "总计", 0.0));
 
         mBillItemsAdapter = new BillItemsAdapter(billItemList);
         mBillItemsAdapter.setLongClickListener(new BillItemsAdapter.OnItemLongClickListener() {
@@ -66,6 +83,8 @@ public class CalendarActivity extends AppCompatActivity
                 removeBillItemButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        BillItem item = mBillItemsAdapter.getItem(position);
+                        mBuhiRecordDatabaseHelper.removeRecord(item);
                         mBillItemsAdapter.removeItem(position);
                         mBillItemPopupWindow.dismiss();
                     }
@@ -83,9 +102,11 @@ public class CalendarActivity extends AppCompatActivity
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String str = mEditText.getText().toString();
-                mBillItemsAdapter.addItem(new BillItem(str, 5.0), mBillItemsAdapter.getItemCount());
+                double amount = Double.parseDouble(mEditText.getText().toString());
+                BillItem item = new BillItem(getCalendarViewDate(), "TODO", amount);
+                mBillItemsAdapter.addItem(item, mBillItemsAdapter.getItemCount());
                 mEditText.setText("");
+                mBuhiRecordDatabaseHelper.addRecord(item);
             }
         });
     }
@@ -108,14 +129,27 @@ public class CalendarActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    public void onCalendarOutOfRange(Calendar calendar) {
-
+    private void updateBillItemsAdapter(String date) {
+        List<BillItem> billItemList = mBuhiRecordDatabaseHelper.getRecord(date);
+        double sum = getSum(billItemList);
+        billItemList.add(0, new BillItem(date, "总计", sum));
+        mBillItemsAdapter.updateBillItemList(billItemList);
     }
 
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onCalendarSelect(Calendar calendar, boolean isClick) {
-        mTitleDate.setText(calendar.getYear() + "-" + calendar.getMonth() + "-" + calendar.getDay());
+    private double getSum(List<BillItem> billItemList) {
+        double sum = 0;
+        for (BillItem item: billItemList) {
+            sum += item.getAmount();
+        }
+        return sum;
     }
+
+    private String getCalendarDate(Calendar calendar) {
+        return calendar.getYear() + "-" + calendar.getMonth() + "-" + calendar.getDay();
+    }
+
+    private String getCalendarViewDate() {
+        return mCalendarView.getCurYear() + "-" + mCalendarView.getCurMonth() + "-" + mCalendarView.getCurDay();
+    }
+
 }

@@ -24,8 +24,8 @@ public class BuhiRecordDatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "BuhiRecord";
     public static int VERSION = 1;
 
-    public BuhiRecordDatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+    public BuhiRecordDatabaseHelper(Context context, SQLiteDatabase.CursorFactory factory) {
+        super(context, DB_NAME, factory, VERSION);
     }
 
     @Override
@@ -64,16 +64,16 @@ public class BuhiRecordDatabaseHelper extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    private List<BillItem> getRecord(Date queryDate) {
+    public List<BillItem> getRecord(String queryDate) {
         List<BillItem> billItemList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(DB_NAME, null, "date = ?", new String[]{String.valueOf(queryDate)}, null, null, null);
+        Cursor cursor = db.query(DB_NAME, null, "date = ?", new String[]{queryDate}, null, null, null);
         while (cursor.moveToNext()) {
             UUID uuid = UUID.fromString(cursor.getString(cursor.getColumnIndex("uuid")));
             long timestamp = cursor.getInt(cursor.getColumnIndex("timestamp"));
-            Date date = String2Date(cursor.getString(cursor.getColumnIndex("date")));
+            String date = cursor.getString(cursor.getColumnIndex("date"));
             String category = cursor.getString(cursor.getColumnIndex("category"));
-            Double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
+            double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
 
             BillItem billItem = new BillItem(uuid, timestamp, date, category, amount);
             billItemList.add(billItem);

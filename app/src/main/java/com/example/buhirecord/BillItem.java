@@ -6,22 +6,14 @@ import java.util.Date;
 import java.util.UUID;
 
 public class BillItem {
-    private UUID uuid;
+    private final UUID uuid;
     private long timestamp; // 创建或修改时的时间戳
-    private Date date; // 创建时间
+    private String date; // yyyy-mm-dd
     private String category;
-    private Double amount;
+    private double amount;
     private final ContentValues values;
 
-    public BillItem(String c, Double a) {
-        uuid = UUID.randomUUID();
-        category = c;
-        amount = a;
-        values = new ContentValues();
-        update();
-    }
-
-    public BillItem(Date d, String c, Double a) {
+    public BillItem(String d, String c, double a) {
         uuid = UUID.randomUUID();
         date = d;
         category = c;
@@ -30,7 +22,7 @@ public class BillItem {
         update();
     }
 
-    public BillItem(UUID u, long t, Date d, String c, Double a) {
+    public BillItem(UUID u, long t, String d, String c, double a) {
         uuid = u;
         timestamp = t;
         date = d;
@@ -39,7 +31,7 @@ public class BillItem {
         values = new ContentValues();
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -47,7 +39,7 @@ public class BillItem {
         this.category = category;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -59,7 +51,7 @@ public class BillItem {
         return timestamp;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -67,7 +59,7 @@ public class BillItem {
         return category;
     }
 
-    public Double getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -79,7 +71,7 @@ public class BillItem {
         timestamp = System.currentTimeMillis();
         values.put("uuid", String.valueOf(uuid));
         values.put("timestamp", timestamp);
-        values.put("date", String.valueOf(date));
+        values.put("date", date);
         values.put("category", category);
         values.put("amount", amount);
     }
