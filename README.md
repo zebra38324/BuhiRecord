@@ -1,9 +1,9 @@
 # BuhiRecord
 ## TODO
 - bug
-    - 启动时读取数据
-    - 新增item时刷新sum
-    - 小数位数限制
+    - 启动时读取数据（done）
+    - 新增item时刷新sum（done）
+    - 小数位数限制 (done)
     - 检测输入合法性
 - feature
     - 增加类型选择

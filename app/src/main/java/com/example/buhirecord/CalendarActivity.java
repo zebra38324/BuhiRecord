@@ -36,6 +36,7 @@ public class CalendarActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initDatabaseHelper();
         Objects.requireNonNull(getSupportActionBar()).hide();
         setContentView(R.layout.activity_calendar);
         mCalendarLayout = findViewById(R.id.activity_calendar_layout);
@@ -45,7 +46,6 @@ public class CalendarActivity extends AppCompatActivity
         mTitleDate.setText(mCalendarView.getCurYear() + "-" + mCalendarView.getCurMonth() + "-" + mCalendarView.getCurDay());
         mEditText = findViewById(R.id.activity_calendar_bottom_edit);
         mBillItemPopupWindow = new BillItemPopupWindow(CalendarActivity.this);
-        mBuhiRecordDatabaseHelper = new BuhiRecordDatabaseHelper(this, null);
         initBillItemsAdapter();
         initEnterButton();
         initExpandButton();
@@ -87,6 +87,7 @@ public class CalendarActivity extends AppCompatActivity
                         mBuhiRecordDatabaseHelper.removeRecord(item);
                         mBillItemsAdapter.removeItem(position);
                         mBillItemPopupWindow.dismiss();
+                        updateBillItemsAdapter(getCalendarViewDate());
                     }
                 });
             }
@@ -95,6 +96,7 @@ public class CalendarActivity extends AppCompatActivity
         mBillItemsRecyclerView = findViewById(R.id.activity_calendar_bill_items_recycler_view);
         mBillItemsRecyclerView.setAdapter(mBillItemsAdapter);
         mBillItemsRecyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL,false));
+        updateBillItemsAdapter(getCalendarViewDate());
     }
 
     private void initEnterButton() {
@@ -107,6 +109,7 @@ public class CalendarActivity extends AppCompatActivity
                 mBillItemsAdapter.addItem(item, mBillItemsAdapter.getItemCount());
                 mEditText.setText("");
                 mBuhiRecordDatabaseHelper.addRecord(item);
+                updateBillItemsAdapter(getCalendarViewDate());
             }
         });
     }
@@ -127,6 +130,11 @@ public class CalendarActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    private void initDatabaseHelper() {
+        GlobalUtils.setContext(this);
+        mBuhiRecordDatabaseHelper = GlobalUtils.getBuhiRecordDatabaseHelper();
     }
 
     private void updateBillItemsAdapter(String date) {

@@ -2,6 +2,7 @@ package com.example.buhirecord;
 
 import android.content.ContentValues;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,24 +12,17 @@ public class BillItem {
     private String date; // yyyy-mm-dd
     private String category;
     private double amount;
-    private final ContentValues values;
+    private ContentValues values;
 
     public BillItem(String d, String c, double a) {
         uuid = UUID.randomUUID();
-        date = d;
-        category = c;
-        amount = a;
-        values = new ContentValues();
-        update();
+        init(d, c, a);
     }
 
     public BillItem(UUID u, long t, String d, String c, double a) {
         uuid = u;
         timestamp = t;
-        date = d;
-        category = c;
-        amount = a;
-        values = new ContentValues();
+        init(d, c, a);
     }
 
     public void setDate(String date) {
@@ -65,6 +59,15 @@ public class BillItem {
 
     public ContentValues getValues() {
         return values;
+    }
+
+    private void init(String d, String c, double a) {
+        date = d;
+        category = c;
+        amount = a;
+        amount = Double.parseDouble(new DecimalFormat("#.00").format(a));
+        values = new ContentValues();
+        update();
     }
 
     private void update() {

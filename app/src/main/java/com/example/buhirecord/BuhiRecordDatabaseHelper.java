@@ -24,8 +24,8 @@ public class BuhiRecordDatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "BuhiRecord";
     public static int VERSION = 1;
 
-    public BuhiRecordDatabaseHelper(Context context, SQLiteDatabase.CursorFactory factory) {
-        super(context, DB_NAME, factory, VERSION);
+    public BuhiRecordDatabaseHelper(Context context) {
+        super(context, DB_NAME, null, VERSION);
     }
 
     @Override
