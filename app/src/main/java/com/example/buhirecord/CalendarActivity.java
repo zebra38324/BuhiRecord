@@ -104,7 +104,11 @@ public class CalendarActivity extends AppCompatActivity
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double amount = Double.parseDouble(mEditText.getText().toString());
+                String inputText = mEditText.getText().toString();
+                if (inputText.length() == 0) {
+                    return;
+                }
+                double amount = Double.parseDouble(inputText);
                 BillItem item = new BillItem(getCalendarViewDate(), "TODO", amount);
                 mBillItemsAdapter.addItem(item, mBillItemsAdapter.getItemCount());
                 mEditText.setText("");
