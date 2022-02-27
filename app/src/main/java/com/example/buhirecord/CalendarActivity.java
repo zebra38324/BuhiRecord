@@ -67,7 +67,7 @@ public class CalendarActivity extends AppCompatActivity
 
     private void initBillItemsAdapter() {
         List<BillItem> billItemList = new ArrayList<>();
-        billItemList.add(new BillItem(getCalendarViewDate(), "总计", 0.0));
+        billItemList.add(new BillItem(getCalendarViewDate(), new BillCategory(BillCategory.sum, BillCategory.sum), 0.0));
 
         mBillItemsAdapter = new BillItemsAdapter(billItemList);
         mBillItemsAdapter.setLongClickListener(new BillItemsAdapter.OnItemLongClickListener() {
@@ -109,7 +109,7 @@ public class CalendarActivity extends AppCompatActivity
                     return;
                 }
                 double amount = Double.parseDouble(inputText);
-                BillItem item = new BillItem(getCalendarViewDate(), "TODO", amount);
+                BillItem item = new BillItem(getCalendarViewDate(), new BillCategory(), amount); // TODO: set category
                 mBillItemsAdapter.addItem(item, mBillItemsAdapter.getItemCount());
                 mEditText.setText("");
                 mBuhiRecordDatabaseHelper.addRecord(item);
@@ -144,7 +144,7 @@ public class CalendarActivity extends AppCompatActivity
     private void updateBillItemsAdapter(String date) {
         List<BillItem> billItemList = mBuhiRecordDatabaseHelper.getRecord(date);
         double sum = getSum(billItemList);
-        billItemList.add(0, new BillItem(date, "总计", sum));
+        billItemList.add(0, new BillItem(date, new BillCategory(BillCategory.sum, BillCategory.sum), sum));
         mBillItemsAdapter.updateBillItemList(billItemList);
     }
 

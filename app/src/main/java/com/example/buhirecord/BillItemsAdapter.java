@@ -65,7 +65,7 @@ public class BillItemsAdapter extends RecyclerView.Adapter<BillItemViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull BillItemViewHolder holder, @SuppressLint("RecyclerView") int position) {
         BillItem item = mBillItemList.get(position);
-        holder.category.setText(item.getCategory());
+        holder.category.setText(item.getCategory().getSecond()); // 显示secondCategory
         holder.amount.setText(String.valueOf(item.getAmount()));
         if (mOnItemLongClickListener != null) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

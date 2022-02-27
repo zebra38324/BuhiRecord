@@ -10,16 +10,16 @@ public class BillItem {
     private final UUID uuid;
     private long timestamp; // 创建或修改时的时间戳
     private String date; // yyyy-mm-dd
-    private String category;
+    private BillCategory category;
     private double amount;
     private ContentValues values;
 
-    public BillItem(String d, String c, double a) {
+    public BillItem(String d, BillCategory c, double a) {
         uuid = UUID.randomUUID();
         init(d, c, a);
     }
 
-    public BillItem(UUID u, long t, String d, String c, double a) {
+    public BillItem(UUID u, long t, String d, BillCategory c, double a) {
         uuid = u;
         timestamp = t;
         init(d, c, a);
@@ -29,7 +29,7 @@ public class BillItem {
         this.date = date;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(BillCategory category) {
         this.category = category;
     }
 
@@ -49,7 +49,7 @@ public class BillItem {
         return date;
     }
 
-    public String getCategory() {
+    public BillCategory getCategory() {
         return category;
     }
 
@@ -61,7 +61,7 @@ public class BillItem {
         return values;
     }
 
-    private void init(String d, String c, double a) {
+    private void init(String d, BillCategory c, double a) {
         date = d;
         category = c;
         amount = a;
@@ -75,7 +75,7 @@ public class BillItem {
         values.put("uuid", String.valueOf(uuid));
         values.put("timestamp", timestamp);
         values.put("date", date);
-        values.put("category", category);
+        values.put("category", category.toString());
         values.put("amount", amount);
     }
 }

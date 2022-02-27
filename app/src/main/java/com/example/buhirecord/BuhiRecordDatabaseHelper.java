@@ -75,7 +75,7 @@ public class BuhiRecordDatabaseHelper extends SQLiteOpenHelper {
             String category = cursor.getString(cursor.getColumnIndex("category"));
             double amount = cursor.getDouble(cursor.getColumnIndex("amount"));
 
-            BillItem billItem = new BillItem(uuid, timestamp, date, category, amount);
+            BillItem billItem = new BillItem(uuid, timestamp, date, new BillCategory(category), amount);
             billItemList.add(billItem);
         }
         cursor.close();
