@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +49,7 @@ public class CalendarActivity extends AppCompatActivity
         mBillItemPopupWindow = new BillItemPopupWindow(CalendarActivity.this);
         initBillItemsAdapter();
         initEnterButton();
+        initStatisticsButton();
         initExpandButton();
     }
 
@@ -114,6 +116,18 @@ public class CalendarActivity extends AppCompatActivity
                 mEditText.setText("");
                 mBuhiRecordDatabaseHelper.addRecord(item);
                 updateBillItemsAdapter(getCalendarViewDate());
+            }
+        });
+    }
+
+    private void initStatisticsButton() {
+        Button statisticsButton = findViewById(R.id.activity_calendar_top_btn_statistics);
+        statisticsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newIntent = new Intent();
+                newIntent.setClass(CalendarActivity.this, Statistics.class);
+                startActivity(newIntent);
             }
         });
     }

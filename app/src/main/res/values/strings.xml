@@ -3,6 +3,9 @@
     <string name="enter">确认</string>
     <string name="input_message">请输入内容</string>
     <string name="delete">删除</string>
+    <string name="statistics">统计</string>
     <string name="expand">展开</string>
     <string name="shrink">收起</string>
+    <string name="default_date">2022–3–9</string>
+    <string name="default_sum">0.00</string>
 </resources>
